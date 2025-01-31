@@ -1,34 +1,28 @@
-name: Deploy to GitHub Pages with Google Analytics
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Trigger this action when code is pushed to the main branch
+      - main  # This will trigger the workflow when you push to the main branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Node.js
+    - name: Set up Node.js (if using Node.js, otherwise skip this step)
       uses: actions/setup-node@v2
       with:
         node-version: '14'
 
-    - name: Install dependencies
-      run: npm install  # If you have a build step, e.g., for static site generators
-
-    - name: Insert Google Analytics Tracking ID
-      run: |
-        TRACKING_ID=${{ secrets.GA_TRACKING_ID }}
-        sed -i "s/{{GA_TRACKING_ID}}/${TRACKING_ID}/g" index.html  # Replace the placeholder with the secret
-      env:
-        GA_TRACKING_ID: ${{ secrets.GA_TRACKING_ID }}
+    - name: Install dependencies (skip if not using Node.js)
+      run: npm install  # Skip this if you’re not using Node.js
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        branch: gh-pages
-        folder: .  # Deploy the entire site
+        branch: gh-pages  # This is the branch that will hold the deployed files
+        folder: ./  # Deploy from the root folder (adjust if your build files are in a different folder)
