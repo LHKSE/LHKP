@@ -13,11 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Replace GA Tracking ID
-        run: |
-          # Replace GA_TRACKING_ID placeholder in the HTML file with the secret
-          sed -i "s/GA_TRACKING_ID/${{ secrets.GA_TRACKING_ID }}/g" path_to_your_html_file.html
-
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
